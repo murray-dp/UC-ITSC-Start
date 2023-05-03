@@ -8,6 +8,17 @@ const formValues = {
   value1: 1,
 };
 
+function getRiskLevel(score) {
+  switch (true) {
+    case score >= 4:
+      return `high`;
+    case score < 4 && score >= 2:
+      return `medium`;
+    default:
+      return `low`;
+  }
+}
+
 export const NewAssessment = () => {
   // console.log(`Loading useForm...`); // eslint-disable-line no-console
   const {
@@ -22,13 +33,14 @@ export const NewAssessment = () => {
   // packages/client/src/services/AssessmentService.js and then onto the packages/api/src/routes/assessment express API
   const onSubmit = async (data) => {
     // Temporary values
-    data.contactWithJudicialSystem = parseInt(data.contactWithJudicialSystem);
-    data.altercationsWithCats = parseInt(data.altercationsWithCats);
-    data.altercationsWithOwner = parseInt(data.altercationsWithOwner);
-    data.playsWellWithDogs = parseInt(data.playsWellWithDogs);
-    data.hissesAtStrangers = parseInt(data.hissesAtStrangers);
-    data.score = -1;
-    data.riskLevel = -1;
+    var sum = 0; // eslint-disable-line
+    sum += data.contactWithJudicialSystem = parseInt(data.contactWithJudicialSystem);
+    sum += data.altercationsWithCats = parseInt(data.altercationsWithCats);
+    sum += data.altercationsWithOwner = parseInt(data.altercationsWithOwner);
+    sum += data.playsWellWithDogs = parseInt(data.playsWellWithDogs);
+    sum += data.hissesAtStrangers = parseInt(data.hissesAtStrangers);
+    data.score = sum;
+    data.riskLevel = getRiskLevel(sum);
     data.instrumentType = -1;
     // Submit data
     await AssessmentService.submit(data);
@@ -36,7 +48,7 @@ export const NewAssessment = () => {
 
   return <Form onSubmit={handleSubmit(onSubmit)}>
 
-    <h1>Cat Behavioral Instrument</h1>
+    <h1>Cat Behavioral Assessment</h1>
 
     <Form.Label htmlFor="catName">Cat's Name:*</Form.Label>
     <Form.Control type="text" id="catName" name="catName" placeholder="Fluffy" required="required"
@@ -77,8 +89,8 @@ export const NewAssessment = () => {
     <Form.Select id="playsWellWithDogs" name="playsWellWithDogs" required="required"
       {...register(`playsWellWithDogs`, { required: true })}>
       <option value="">...</option>
-      <option value={formValues.value0}>No</option>
-      <option value={formValues.value1}>Yes</option>
+      <option value={formValues.value1}>No</option>
+      <option value={formValues.value0}>Yes</option>
     </Form.Select>
 
     <Form.Label htmlFor="hissesAtStrangers">Does this cat hiss at strangers?*</Form.Label>

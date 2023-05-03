@@ -9,7 +9,17 @@ exports.submit = async (assessment) => {
 exports.getList = () => {
   // use the sequelize model Assessments from packages/api/src/database/models to fetch
   // the assessment data from the PostgreSQL database
-  const assessments = [];
+  const assessments = Assessment.findAll();
+  console.log(`Assessment-Service:`, assessments); // eslint-disable-line no-console
 
   return assessments;
+};
+
+exports.delete = async (id) => {
+  const rId = parseInt(id);
+  await Assessment.destroy({
+    where: {
+      id: rId,
+    },
+  });
 };

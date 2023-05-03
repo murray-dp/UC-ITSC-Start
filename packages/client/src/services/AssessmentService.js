@@ -21,11 +21,23 @@ export class AssessmentService {
       // Choose the correct method, url, and data to send
       // in a request to the express packages/api/src/routes/assessment.js
       // NOTE: the http.config file automatically adds /api to the front of your url
-      return Axios.METHOD(`/some-url`, {
+      const assessments = Axios.get(`/assessment/list`, {
         params: {
         },
       })
-        .then(response => response.data.data.assessment);
+        .then(response => response.data.data);
+      console.log(assessments); // eslint-disable-line no-console
+      return assessments;
+    }
+    catch (err) {
+      throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
+    }
+  }
+
+  static delete(id) {
+    console.log(`AssessmentService: Deleting row `, id); // eslint-disable-line no-console
+    try {
+      Axios.post(`/assessment/delete`, { id });
     }
     catch (err) {
       throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
