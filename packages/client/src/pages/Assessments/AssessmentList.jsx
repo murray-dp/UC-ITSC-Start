@@ -64,7 +64,7 @@ export const AssessmentList = () => {
   );
 
   // console.log(`assessments: `); // eslint-disable-line no-console
-  console.log(assessments); // eslint-disable-line no-console
+  // console.log(assessments); // eslint-disable-line no-console
 
   const {
     getTableBodyProps,

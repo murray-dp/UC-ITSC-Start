@@ -33,7 +33,7 @@ export const NewAssessment = () => {
   // packages/client/src/services/AssessmentService.js and then onto the packages/api/src/routes/assessment express API
   const onSubmit = async (data) => {
     // Temporary values
-    var sum = 0; // eslint-disable-line
+    let sum = 0;
     sum += data.contactWithJudicialSystem = parseInt(data.contactWithJudicialSystem);
     sum += data.altercationsWithCats = parseInt(data.altercationsWithCats);
     sum += data.altercationsWithOwner = parseInt(data.altercationsWithOwner);
