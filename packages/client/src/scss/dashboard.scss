@@ -1,0 +1,22 @@
+.dashboard li {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dashboard a {
+  text-decoration: none;
+  text-align: center;
+  color: #ffffff;
+  background-color: #888888;
+  display: block;
+  border: 1px solid #000000;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.dashboard a:hover {
+  color: #000000;
+  background-color: #aaaaaa;
+  border-color: #bbbbbb #888888 #888888 #bbbbbb;
+}
