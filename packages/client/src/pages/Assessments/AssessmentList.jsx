@@ -1,12 +1,21 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSortBy, useTable } from 'react-table';
+import { useFilters, useSortBy, useTable } from 'react-table';
 import { AssessmentService } from '../../services/AssessmentService';
 import '../../scss/table.scss';
 
 function deleteAssessment(id) {
   console.log(`AssessmentList: Deleting row `, id); // eslint-disable-line no-console
   AssessmentService.delete(id);
+  localStorage.setItem(`isDeleteRefresh`, `true`);
+  localStorage.setItem(`deleteMessage`, `Assessment [cat id = ${id}] has been deleted!`);
+  window.location.reload(true);
 }
+
+// console.log(localStorage.getItem(`deleteMessage`)); // eslint-disable-line
+if (localStorage.getItem(`isDeleteRefresh`) === `false`) {
+  localStorage.setItem(`deleteMessage`, ``);
+}
+localStorage.setItem(`isDeleteRefresh`, `false`);
 
 export const AssessmentList = () => {
   const [ assessments, setAssessments ] = useState([]);
@@ -49,22 +58,24 @@ export const AssessmentList = () => {
       },
       {
         Header: `Entry Created At`,
-        accessor: `createdAt`,
+        // eslint-disable-next-line
+        Cell: ({ row }) => <>{row.original.createdAt.substring(0, row.original.createdAt.indexOf(`T`))}</>,
       },
       {
         Header: `Last Updated`,
-        accessor: `updatedAt`,
+        // eslint-disable-next-line
+        Cell: ({ row }) => <>{row.original.updatedAt.substring(0, row.original.updatedAt.indexOf(`T`))}</>,
       },
       {
         Header: `Delete`,
-        Cell: ({ row }) => <button onClick={() => { deleteAssessment(row.original.id); }}>Delete Assessment</button>, // eslint-disable-line
+        // eslint-disable-next-line
+        Cell: ({ row }) => <>
+          <button onClick={() => { deleteAssessment(row.original.id); }}>Delete Assessment</button>
+        </>,
       },
     ],
     []
   );
-
-  // console.log(`assessments: `); // eslint-disable-line no-console
-  // console.log(assessments); // eslint-disable-line no-console
 
   const {
     getTableBodyProps,
@@ -72,7 +83,16 @@ export const AssessmentList = () => {
     headerGroups,
     prepareRow,
     rows,
-  } = useTable({ columns: cols, data: assessments }, useSortBy);
+    setFilter,
+  } = useTable({ columns: cols, data: assessments }, useFilters, useSortBy);
+
+  const [ filterInput, setFilterInput ] = useState(``);
+
+  const handleFilterChange = e => {
+    const value = e.target.value || undefined;
+    setFilter(`catName`, value);
+    setFilterInput(value);
+  };
 
   return (
     <div>
@@ -81,6 +101,14 @@ export const AssessmentList = () => {
           Please use the library react-table https://www.npmjs.com/package/react-table
       */}
       <h1>Table of Entries</h1>
+      <div id="delete-message">{localStorage.getItem(`deleteMessage`)}</div>
+      {/* <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="text" id="filter" name="filter" placeholder="Search Table..."
+          {...register(`filter`, { required: true }) } />
+        <input type="submit" value="Submit" />
+      </form> */}
+      <input id="filter" name="filter" value={filterInput} onChange={handleFilterChange}
+        placeholder="Enter Cat Name..." />
       <table {...getTableProps()}>
         <thead>
           {

@@ -1,5 +1,10 @@
+body {
+  padding-bottom: 5em;
+}
+
 table {
   border-collapse: collapse;
+  width: 100%;
 }
 
 th, td {
@@ -9,4 +14,17 @@ th, td {
 
 th {
   background-color: #bfbfbf;
+}
+
+#delete-message {
+  color: #00aa00;
+  font-weight: bold;
+  font-family: sans-serif;
+  margin: 1em 0;
+}
+
+#filter {
+  margin-bottom: 1em;
+  width: 30%;
+  padding: 0.25em 0.75em;
 }

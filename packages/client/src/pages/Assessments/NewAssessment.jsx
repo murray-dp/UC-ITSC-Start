@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { AssessmentService } from '../../services/AssessmentService';
+import '../../scss/form.scss';
 
 const formValues = {
   value0: 0,
@@ -44,9 +45,12 @@ export const NewAssessment = () => {
     data.instrumentType = -1;
     // Submit data
     await AssessmentService.submit(data);
+
+    document.getElementById(`assessmentForm`).reset();
+    document.getElementById(`submitMessage`).innerText = `The form has been submitted!`;
   };
 
-  return <Form onSubmit={handleSubmit(onSubmit)}>
+  return <Form id="assessmentForm" onSubmit={handleSubmit(onSubmit)}>
 
     <h1>Cat Behavioral Assessment</h1>
 
@@ -100,7 +104,8 @@ export const NewAssessment = () => {
       <option value={formValues.value0}>No</option>
       <option value={formValues.value1}>Yes</option>
     </Form.Select>
-    <Button variant="primary" type="submit">Submit</Button>
-    <p>* Required</p>
+    <Button id="submit" variant="primary" type="submit">Submit</Button>
+    <p className="required">* Required</p>
+    <div id="submitMessage" />
   </Form>;
 };

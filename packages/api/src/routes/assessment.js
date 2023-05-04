@@ -15,10 +15,10 @@ assessmentRouter.post(
       // verify that your data is making it here to the API by using console.log(assessment);
       // call the AssessmentService.submit function from packages/api/src/microservices/Assessment-Service.js and
       // supply the correct parameters
-      console.log(`assessment.js:`); // eslint-disable-line no-console
+      // console.log(`assessment.js:`); // eslint-disable-line no-console
       // console.log(assessment); // eslint-disable-line no-console
-      const success = await AssessmentService.submit(assessment);
-      console.log(success); // eslint-disable-line no-console
+      await AssessmentService.submit(assessment);
+      // console.log(success); // eslint-disable-line no-console
 
       ResponseHandler(
         res,

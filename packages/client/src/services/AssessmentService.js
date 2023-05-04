@@ -6,8 +6,8 @@ export class AssessmentService {
       // Choose the correct method, url, and data to send
       // in a request to the express packages/api/src/routes/assessment.js
       // NOTE: the http.config file automatically adds /api to the front of your url
-      console.log(`AssessmentService:`); // eslint-disable-line no-console
-      console.log(assessment); // eslint-disable-line no-console
+      // console.log(`AssessmentService:`); // eslint-disable-line no-console
+      // console.log(assessment); // eslint-disable-line no-console
       return Axios.post(`/assessment/submit`, { assessment })
         .then(response => response.data);
     }
@@ -26,7 +26,7 @@ export class AssessmentService {
         },
       })
         .then(response => response.data.data);
-      console.log(assessments); // eslint-disable-line no-console
+      // console.log(assessments); // eslint-disable-line no-console
       return assessments;
     }
     catch (err) {
